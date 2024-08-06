@@ -250,26 +250,26 @@
 // Chat_bot 
 
                 if (conf.CHAT_BOT === 'oui') {
-  const traduction = require("./framework/traduction");
-  try {
+                   const traduction = require("./framework/traduction");
+                   const fetch = require('node-fetch');
+
     let trdmsg = await traduction(texte, { 'to': 'en' });
-    try {
-      const response = await fetch(`https://api.brainshop.ai/get?bid=182939&key=Je69ped2ZzbfNf3g&uid=[uid]&msg=[msg][uid]&msg=${trdmsg}`);
-      if (response.ok) {
-        const data = await response.json();
+                    
+fetch("https://api.brainshop.ai/get?bid=182939&key=Je69ped2ZzbfNf3g&uid=[uid]&msg=[msg][uid]&msg=" + trdmsg)
+      .then(response => response.json()) 
+      .then(data => {
         const respmsg = data.cnt;
-        const finalMessage = await traduction(respmsg, { 'to': 'fr' });
-        repondre(finalMessage);
-      } else {
-        console.error("Erreur lors de la requête à BrainShop :", response.status, response.statusText);
-      }
-    } catch (error) {
-      console.error("Erreur lors de la requête à BrainShop :", error);
-    }
-  } catch (error) {
-    console.error("Erreur lors de la traduction en anglais :", error);
-  }
-}
+        traduction(respmsg, { 'to': 'fr' })
+       .then(finalMessage => {
+          repondre(finalMessage);
+        }).catch(error => {
+          console.error("Erreur lors de la traduction en français :", error);
+        });
+      }).catch(error => {
+        console.error("Erreur lors de la requête à BrainShop :", error);
+      });
+                }
+                
                 // fin Chat_bot
                 
 
