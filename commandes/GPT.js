@@ -21,14 +21,18 @@ zokou({nomCom:"alexa",reaction:"📡",categorie:"Thomas"}, async (dest, zk, comm
 });
 
 // Dalle command
-zokou({nomCom:'dalle2',reaction:'📡',categorie:'IA'}, async (dest, zk, commandeOptions) => {
-  const { repondre, arg, ms } = commandeOptions;
+zokou({nomCom:'dalle2',reaction:'📡',categorie:'IA'}, async (dest, zk, commandesOptions) => {
+  const { repondre, arg, ms } = options;
+  
+  if (!arg || arg.length === 0) {
+    return repondre("Please enter the necessary information to generate the image.");
+  }
   
   try {
     const prompt = arg.join(" ");
     const imageUrl = `https://widipe.com/dalle?text=${prompt}`;
     
-    bot.sendMessage(dest, {
+    zk.sendMessage(dest, {
       'image': { 'url': imageUrl },
       'caption': "*powered by FLASH-MD*"
     }, { 'quoted': ms });
