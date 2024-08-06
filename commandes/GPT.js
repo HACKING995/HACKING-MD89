@@ -183,7 +183,74 @@ try {
     repondre("That country name is incorrect!");
   }
 });
-  
 
+
+zokou({
+  nomCom: 'lines',
+  reaction: '🫵',
+  categorie: "Thomas"
+}, async (dest, zk, commandeOptions) => {
+  const { repondre, arg, ms } = commandeOptions;
+  const response = await fetch("https://api.maher-zubair.tech/misc/lines");
+  const data = await response.json();
+  await repondre(data.result);
+});
+
+zokou({
+  nomCom: 'insult',
+  reaction: '💀',
+  categorie: "Thomas"
+}, async (dest, zk, commandeOptions) => {
+  const { repondre, arg, ms } = commandeOptions;
+  const response = await fetch("https://api.maher-zubair.tech/misc/insult");
+  const data = await response.json();
+  await repondre(data.result);
+});
+
+zokou({
+  nomCom: 'enhance',
+  reaction: '💥',
+  categorie: "Thomas"
+}, async (dest, zk, commandeOptions) => {
+  const { repondre, arg, ms } = commandeOptions;
+  try {
+    if (!arg || arg.length === 0) {
+      return repondre("Please enter the Url of the image you want to enhance!");
+    }
+    const imageUrl = arg.join(" ");
+    const enhancedImageUrl = "https://api.maher-zubair.tech/maker/enhance?url=" + imageUrl;
+    zk.sendMessage(dest, {
+      image: { url: enhancedImageUrl },
+      caption: "*Enhanced by Zokou*"
+    }, {
+      quoted: ms
+    });
+  } catch (error) {
+    console.error("Error:", error.message || "An error occurred");
+    repondre("Oops, an error occurred while processing your request");
+  }
+});
+
+zokou({
+  nomCom: 'dare',
+  reaction: '😁',
+  categorie: "Thomas"
+}, async (dest, zk, commandeOptions) => {
+  const { repondre, arg, ms } = commandeOptions;
+  const response = await fetch("https://shizoapi.onrender.com/api/texts/dare?apikey=shizo");
+  const data = await response.json();
+  await repondre(data.result);
+});
+
+zokou({
+  nomCom: 'truth',
+  reaction: '🤩',
+  categorie: "Thomas"
+}, async (dest, zk, commandeOptions) => {
+  const { repondre, arg, ms } = commandeOptions;
+  const response = await fetch("https://shizoapi.onrender.com/api/texts/truth?apikey=shizo");
+  const data = await response.json();
+  await repondre(data.result);
+});
 
 
