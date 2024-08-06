@@ -25,19 +25,15 @@ zokou({nomCom:'dalle2',reaction:'📡',categorie:'IA'}, async (dest, zk, command
   const { repondre, arg, ms } = commandeOptions;
   
   try {
-    if (!arg || arg.length === 0) {
-      return repondre("Please enter the necessary information to generate the image.");
-    }
-    
     const prompt = arg.join(" ");
-    const imageUrl = `https://cute-tan-gorilla-yoke.cyclic.app/imagine?text=${prompt}`;
+    const imageUrl = `https://widipe.com/dalle?text=${prompt}`;
     
-    zk.sendMessage(dest, {
-      image: { url: imageUrl },
-      caption: "*powered by HACKING-MD*"
-    }, { quoted: ms });
+    bot.sendMessage(dest, {
+      'image': { 'url': imageUrl },
+      'caption': "*powered by FLASH-MD*"
+    }, { 'quoted': ms });
   } catch (error) {
-    console.error('Error:', error.message || "An error occurred");
+    console.error("Error:", error.message || "An error occurred");
     repondre("Oops, an error occurred while processing your request");
   }
 });
@@ -173,18 +169,21 @@ zokou({nomCom:"nature",reaction:'🦗',categorie:"Thomas"}, async (dest, zk, com
 zokou({nomCom:'time',reaction:'⌚',categorie:"Thomas"}, async (dest, zk, commandeOptions) => {
   const { repondre, arg, ms } = commandeOptions;
   
-  try {
-    if (!arg || arg.length === 0) {
-      return repondre("Enter the name of the country you want to know its time and date");
-    }
-    
+try {
     const country = arg.join(" ");
-    const response = await axios.get(`https://levanter.onrender.com/time?code=${country}`);
-    const time = response.data.result[0].time;
-    await repondre(time);
+    const response = await fetch(`https://levanter.onrender.com/time?code=${country}`);
+    const data = await response.json();
+    
+    const countryName = data.result[0].name;
+    const time = data.result[0].time;
+    const timeZone = data.result[0].timeZone;
+    
+    await repondre(`Live Time in *${countryName}* Stats:\n\n*Date & Time:* ${time}\n *TimeZone:* ${timeZone}\n\n> *POWERED BY HACKING-MD*`);
   } catch (error) {
     repondre("That country name is incorrect!");
   }
 });
+  
+
 
 
