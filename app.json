@@ -39,7 +39,7 @@
       "required":false
        
      },
-"PM_CHATBOT" :
+"CHAT_BOT" :
      {
       "description":"Le bot  répondra  automatiquement les messages en priver ou même  les groupes lorsqu'il est activé  et même les autres utilisateurs causeront avec lui (oui pour activer et non pour désactiver)",
       "value":"non",
