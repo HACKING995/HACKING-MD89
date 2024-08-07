@@ -248,21 +248,7 @@
                 
                 };
 // Chat_bot 
-if (_0x45f822.endsWith("@s.whatsapp.net") && _0x37a424 !== _0x5d8568) {
-  if (_0x55afff?.["etat"] === 'on') {
-    if (_0x55afff.lien === "no url") {
-      _0x540c51(_0x55afff.message);
-    } else {
-      _0x59d506.sendMessage(_0x45f822, {
-        'image': {
-          'url': _0x55afff.lien
-        },
-        'caption': _0x55afff.message
-      }, {
-        'caption': _0x239233
-      });
-    }
-  } else {
+
     if (conf.CHAT_BOT === "oui") {
       if (!_0x1ce3d7) {
         const _0x131828 = require("./framework/traduction");
