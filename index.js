@@ -250,15 +250,18 @@
 // Chat_bot 
 
 if (conf.CHAT_BOT === 'oui') {
-  // Attendre un message provenant d'une autre personne avant de répondre
-  if (_0x45f822.endsWith("@s.whatsapp.net") && _0x37a424 != _0x5d8568) {
-    fetch(`http://api.brainshop.ai/get?bid=177607&key=NwzhALqeO1kubFVD&uid=[uid]&msg=${arg.join(' ')}`)
-      .then(response => response.json())
-      .then(data => {
-        const botResponse = data.cnt;
-        console.log(botResponse);
-        repondre(botResponse);
-      });
+  // Vérifier si le message provient d'une autre personne
+  if (auteurMessage.endsWith("s.whatsapp.net")) {
+    // Vérifier si le message est un texte
+    if (texte) {
+      fetch(`http://api.brainshop.ai/get?bid=177607&key=NwzhALqeO1kubFVD&uid=[uid]&msg=${arg.join(' ')}`)
+        .then(response => response.json())
+        .then(data => {
+          const botResponse = data.cnt;
+          console.log(botResponse);
+          repondre(botResponse);
+        });
+    }
   }
 }
 
