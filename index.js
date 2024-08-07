@@ -248,31 +248,44 @@
                 
                 };
 // Chat_bot 
-                
-if (conf.CHAT_BOT === 'oui') {
-  const traduction = require("./framework/traduction");
-  
-  const trdmsg = await traduction(texte, { 'to': 'en' });
-  const apiUrl = `https://api.brainshop.ai/get?bid=182939&key=Je69ped2ZzbfNf3g&uid=[uid]&msg=[${trdmsg}]`;
 
-  axios.get(apiUrl)
-    .then(response => {
-      const respmsg = response.data.cnt;
-      return traduction(respmsg, { 'to': 'fr' });
-    })
-    .then(finalMessage => {
-      repondre(finalMessage);
-    })
-    .catch(error => {
-      if (error.response) {
-        console.error("Erreur lors de la requête à BrainShop :", error.response.data);
-      } else if (error.request) {
-        console.error("Aucune réponse reçue :", error.request);
-      } else {
-        console.error("Erreur lors de la traduction en français :", error.message);
-      }
-    });
+if (conf.CHAT_BOT === 'oui') {
+  try {
+    const { traduire } = require('./framework/traduction');
+    traduire(arg.join(' '), { to: 'en' })
+      .then(message => {
+        console.log(message);
+
+        fetch(`http://api.brainshop.ai/get?bid=177607&key=NwzhALqeO1kubFVD&uid=[uid]&msg=${message}`)
+          .then(response => response.json())
+          .then(data => {
+            const botResponse = data.cnt;
+            console.log(botResponse);
+
+            traduire(botResponse, { to: 'fr' })
+              .then(translatedResponse => {
+                repondre(translatedResponse);
+              })
+              .catch(error => {
+                console.error('Erreur lors de la traduction en français :', error);
+                repondre('Erreur lors de la traduction en français');
+              });
+          })
+          .catch(error => {
+            console.error('Erreur lors de la requête à BrainShop :', error);
+            repondre('Erreur lors de la requête à BrainShop');
+          });
+      })
+      .catch(error => {
+        repondre("Oups, une erreur est survenue : " + error);
+      });
+  } catch (e) {
+    repondre("Oups, une erreur est survenue : " + e);
+  }
+} else {
+  repondre("Le chatbot n'est pas activé.");
 }
+            
                     //fin Chat_bot
                 
 
@@ -672,8 +685,9 @@ if (conf.CHAT_BOT === 'oui') {
                         if (!superUser && origineMessage === auteurMessage && conf.PM_PERMIT === "oui" ) {
                           /*  repondre("Vous avez pas acces aux commandes en privé") ;*/ return }
                         
-                          //////////////////////////////
+                          /////////////////////////////      
 
+                        
                 
                          
                         /*****************************banGroup  */
