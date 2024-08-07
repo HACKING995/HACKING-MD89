@@ -52,6 +52,8 @@
     let { reagir } = require(__dirname + "/framework/app");
     var session = conf.session.replace(/HACKING-MD;;;=>/g,"");
     const prefixe = conf.PREFIXE;
+   const { traduire } = require('./framework/traduction');
+
     
     async function authentification() {
         try {
