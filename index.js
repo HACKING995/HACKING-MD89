@@ -248,49 +248,27 @@
                 
                 };
 // Chat_bot 
-let hasReplied = false;
 
-if (conf.CHAT_BOT === 'oui') {
-  try {
-    const { traduire } = require('../framework/traduction');
+    if (conf.CHAT_BOT === 'oui') {
+  const { traduire } = require('./framework/traduction');
 
-    const handleUserMessage = async (message, uid) => {
-      try {
-        // Vérifier si l'expéditeur est un membre autorisé
-        if (uid.endsWith("@s.whatsapp.net") && uid !== "123456") {
-          const translatedMessage = await traduire(message, { to: 'en' });
-          console.log(translatedMessage);
+  traduire(arg.join(' '), { to: 'en' })
+    .then(message => {
+      console.log(message);
 
-          const response = await fetch(`http://api.brainshop.ai/get?bid=177607&key=NwzhALqeO1kubFVD&uid=${uid}&msg=${translatedMessage}`);
-          const data = await response.json();
+      fetch(`http://api.brainshop.ai/get?bid=177607&key=NwzhALqeO1kubFVD&uid=[uid]&msg=${message}`)
+        .then(response => response.json())
+        .then(data => {
           const botResponse = data.cnt;
           console.log(botResponse);
 
-          const translatedBotResponse = await traduire(botResponse, { to: 'fr' });
-          repondre(translatedBotResponse);
-        } 
-        // Si l'expéditeur n'est pas un membre autorisé
-        else {
-          repondre("Désolé, je ne peux pas répondre à ce message.");
-        }
-      } catch (error) {
-        console.error('Erreur durant le traitement du message :', error);
-        repondre("Oups, une erreur est survenue :");
-      }
-    };
-
-    // Appeler la fonction handleUserMessage uniquement une fois
-    handleUserMessage(arg.join(' '), _0x37a424);
-  } catch (e) {
-    repondre("Oups, une erreur est survenue : " + e);
-  }
-} else {
-  if (!hasReplied) {
-    repondre("Chatbot n'est pas activé.");
-    hasReplied = true;
-  }
+          traduire(botResponse, { to: 'fr' })
+            .then(translatedResponse => {
+              repondre(translatedResponse);
+            });
+        });
+    });
 }
-    
 
             
                     //fin Chat_bot
