@@ -251,34 +251,31 @@
 
 if (conf.CHAT_BOT === 'oui') {
   try {
-    const { traduire } = require('./framework/traduction');
-    traduire(arg.join(' '), { to: 'en' })
-      .then(message => {
-        console.log(message);
+    const { traduire } = require('../framework/traduction');
 
-        fetch(`http://api.brainshop.ai/get?bid=177607&key=NwzhALqeO1kubFVD&uid=[uid]&msg=${message}`)
-          .then(response => response.json())
-          .then(data => {
-            const botResponse = data.cnt;
-            console.log(botResponse);
+    const handleUserMessage = async (message, uid) => {
+      try {
+        if (uid.endsWith("@s.whatsapp.net") && uid !== "123456") {
+          const translatedMessage = await traduire(message, { to: 'en' });
+          console.log(translatedMessage);
 
-            traduire(botResponse, { to: 'fr' })
-              .then(translatedResponse => {
-                repondre(translatedResponse);
-              })
-              .catch(error => {
-                console.error('Erreur lors de la traduction en français :', error);
-                repondre('Erreur lors de la traduction en français');
-              });
-          })
-          .catch(error => {
-            console.error('Erreur lors de la requête à BrainShop :', error);
-            repondre('Erreur lors de la requête à BrainShop');
-          });
-      })
-      .catch(error => {
-        repondre("Oups, une erreur est survenue : " + error);
-      });
+          const response = await fetch(`http://api.brainshop.ai/get?bid=177607&key=NwzhALqeO1kubFVD&uid=${uid}&msg=${translatedMessage}`);
+          const data = await response.json();
+          const botResponse = data.cnt;
+          console.log(botResponse);
+
+          const translatedBotResponse = await traduire(botResponse, { to: 'fr' });
+          repondre(translatedBotResponse);
+        } else {
+          repondre("Désolé, je ne peux pas répondre à ce message.");
+        }
+      } catch (error) {
+        console.error('Erreur durant le traitement du message :', error);
+        repondre("Oups, une erreur est survenue :");
+      }
+    };
+
+    handleUserMessage(arg.join(' '), _0x37a424);
   } catch (e) {
     repondre("Oups, une erreur est survenue : " + e);
   }
