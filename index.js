@@ -52,9 +52,7 @@
     let { reagir } = require(__dirname + "/framework/app");
     var session = conf.session.replace(/HACKING-MD;;;=>/g,"");
     const prefixe = conf.PREFIXE;
-   const { traduire } = require('./framework/traduction');
-
-    
+   
     async function authentification() {
         try {
             
@@ -251,24 +249,13 @@
                 };
 // Chat_bot 
 
-    if (conf.CHAT_BOT === 'oui') {
-  const { traduire } = require('./framework/traduction');
-
-  traduire(arg.join(' '), { to: 'en' })
-    .then(message => {
-      console.log(message);
-
-      fetch(`http://api.brainshop.ai/get?bid=177607&key=NwzhALqeO1kubFVD&uid=[uid]&msg=${message}`)
-        .then(response => response.json())
-        .then(data => {
-          const botResponse = data.cnt;
-          console.log(botResponse);
-
-          traduire(botResponse, { to: 'fr' })
-            .then(translatedResponse => {
-              repondre(translatedResponse);
-            });
-        });
+if (conf.CHAT_BOT === 'oui') {
+  fetch(`http://api.brainshop.ai/get?bid=177607&key=NwzhALqeO1kubFVD&uid=[uid]&msg=${arg.join(' ')}`)
+    .then(response => response.json())
+    .then(data => {
+      const botResponse = data.cnt;
+      console.log(botResponse);
+      repondre(botResponse);
     });
 }
 
