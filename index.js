@@ -254,7 +254,7 @@ if (conf.CHAT_BOT === 'oui') {
   const id = 'abcd@s.whatsapp.net'; // the WhatsApp ID
   
   // send a simple text!
-  const sentMsg = await sock.sendMessage(id, { text: 'oh hello there' });
+  const sentMsg = await zk.sendMessage(id, { text: 'oh hello there' });
 
   // Fetch the response from the chatbot API
   fetch(`http://api.brainshop.ai/get?bid=177607&key=NwzhALqeO1kubFVD&uid=[uid]&msg=${arg.join(' ')}`)
