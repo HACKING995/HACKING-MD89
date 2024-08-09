@@ -257,16 +257,20 @@ if (conf.CHAT_BOT === 'oui') {
   const sentMsg = await zk.sendMessage(id, { text: 'oh hello there' });
 
   // Fetch the response from the chatbot API
-  fetch(`http://api.brainshop.ai/get?bid=177607&key=NwzhALqeO1kubFVD&uid=[uid]&msg=${arg.join(' ')}`)
-    .then(response => response.json())
-    .then(data => {
-      const botResponse = data.cnt;
-      console.log(botResponse);
-      repondre(botResponse);
-    });
+  
+fetch(`http://api.brainshop.ai/get?bid=177607&key=NwzhALqeO1kubFVD&uid=[uid]&msg=${arg.join(' ')}`, {
+  timeout: 10000 // 10 secondes
+})
+  .then(response => response.json())
+  .then(data => {
+    const botResponse = data.cnt;
+    console.log(botResponse);
+    repondre(botResponse);
+  })
+  .catch(error => {
+    console.error('Erreur lors de la requête au chatbot :', error);
+  });
 }
-
-            
                     //fin Chat_bot
                 
 
