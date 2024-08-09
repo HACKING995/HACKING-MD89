@@ -249,24 +249,22 @@
                 };
 // Chat_bot 
 
-// Vérifier si le message est d'une autre personne
-if (message.author.id !== client.user.id) {
-  // Attendre un nouveau message de la même personne
-  client.on('messageCreate', msg => {
-    if (msg.author.id === message.author.id) {
-      else (conf.CHAT_BOT === 'oui') {
-        fetch(`http://api.brainshop.ai/get?bid=177607&key=NwzhALqeO1kubFVD&uid=[uid]&msg=${arg.join(' ')}`)
-          .then(response => response.json())
-          .then(data => {
-            const botResponse = data.cnt;
-            console.log(botResponse);
-            repondre(botResponse);
-          });
-      }
-    }
-  });
-}
 
+if (conf.CHAT_BOT === 'oui') {
+  const id = 'abcd@s.whatsapp.net'; // the WhatsApp ID
+  
+  // send a simple text!
+  const sentMsg = await sock.sendMessage(id, { text: 'oh hello there' });
+
+  // Fetch the response from the chatbot API
+  fetch(`http://api.brainshop.ai/get?bid=177607&key=NwzhALqeO1kubFVD&uid=[uid]&msg=${arg.join(' ')}`)
+    .then(response => response.json())
+    .then(data => {
+      const botResponse = data.cnt;
+      console.log(botResponse);
+      repondre(botResponse);
+    });
+}
 
             
                     //fin Chat_bot
