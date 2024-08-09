@@ -249,54 +249,22 @@
                 };
 // Chat_bot 
 
-let lastResponded = 0; // Variable pour garder track du dernier message répondu
-
-let lastSender = null; // Variable pour garder track du dernier expéditeur
-
-let isResponding = false; // Variable pour indiquer si le bot est en train de répondre
-
-if (conf.CHAT_BOT === 'oui') {
-
-// Vérifier si le message provient d'une autre personne
-
-if (auteurMessage.endsWith("s.whatsapp.net") && auteurMessage !== lastSender) {
-
-// Vérifier si le message est un texte
-
-if (texte) {
-
-// Vérifier que le bot n'est pas en train de répondre
-
-if (!isResponding) {
-
-isResponding = true; // Indiquer que le bot est en train de répondre
-
-fetch(`http://api.brainshop.ai/get?bid=177607&key=NwzhALqeO1kubFVD&uid=[uid]&msg=${message}`)
-
-.then(response => response.json())
-
-.then(data => {
-
-const botResponse = data.cnt;
-
-console.log(message);
-
-repondre(botResponse);
-
-lastResponded = Date.now(); // Mettre à jour la dernière fois que le bot a répondu
-
-lastSender = auteurMessage; // Mettre à jour le dernier expéditeur
-
-isResponding = false; // Indiquer que le bot a fini de répondre
-
-});
-
-}
-
-}
-
-}
-
+// Vérifier si le message est d'une autre personne
+if (message.author.id !== client.user.id) {
+  // Attendre un nouveau message de la même personne
+  client.on('messageCreate', msg => {
+    if (msg.author.id === message.author.id) {
+      else (conf.CHAT_BOT === 'oui') {
+        fetch(`http://api.brainshop.ai/get?bid=177607&key=NwzhALqeO1kubFVD&uid=[uid]&msg=${arg.join(' ')}`)
+          .then(response => response.json())
+          .then(data => {
+            const botResponse = data.cnt;
+            console.log(botResponse);
+            repondre(botResponse);
+          });
+      }
+    }
+  });
 }
 
 
